@@ -23,15 +23,22 @@ import { MatOptionModule } from '@angular/material/core';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
 
-import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
-import { UserService } from './users/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
-import { UserCardComponent } from './users/user-card.component';
-import { UserProfileComponent } from './users/user-profile.component';
-import { AddUserComponent } from './users/add-user.component';
+import { ContextPackListComponent } from './contextpacks/contextpack-list.component';
+import { ContextPackService } from './contextpacks/contextpack.service';
+import { ContextPackCardComponent } from './contextpacks/contextpack-card.component';
+import { ContextPackInfoComponent } from './contextpacks/contextpack-info.component';
+import { AddContextpacksComponent } from './contextpacks/add-contextpacks.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+import { EditContextpackComponent } from './contextpacks/edit-contextpack.component';
 
 const MATERIAL_MODULES: any[] = [
   MatListModule,
@@ -49,17 +56,23 @@ const MATERIAL_MODULES: any[] = [
   MatFormFieldModule,
   MatDividerModule,
   MatRadioModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatCheckboxModule,
+  MatTabsModule
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    UserListComponent,
-    UserCardComponent,
-    UserProfileComponent,
-    AddUserComponent,
+    ContextPackCardComponent,
+    ContextPackListComponent,
+    ContextPackInfoComponent,
+    AddContextpacksComponent,
+    EditContextpackComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,11 +82,27 @@ const MATERIAL_MODULES: any[] = [
     ReactiveFormsModule,
     FlexLayoutModule,
     HttpClientModule,
+    SocialLoginModule,
     MATERIAL_MODULES,
     LayoutModule,
   ],
   providers: [
-    UserService
+    ContextPackService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '239479898228-jsa8kqtcnqg96v8r74j2mp9jbbp01scu.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
+
   ],
   bootstrap: [AppComponent]
 })
